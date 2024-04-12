@@ -26,7 +26,7 @@ class InputDataOutput(BaseModel):
 
 
 class InputDataListOutput(BaseModel):
-    prev_page: Optional[int]
-    next_page: Optional[int]
+    prev_page: Optional[int] = None
+    next_page: Optional[int] = None
     data: List[Optional[InputDataOutput]]
 

@@ -32,6 +32,15 @@
 </form>
 
 
+<div>
+    {% for input in input_list.data %}
+        {{input}}
+            <form action="/input/{{ input.id }}" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit">Delete</button>
+            </form>
+    {% endfor %}
+</div>
 
 </body>
 </html>

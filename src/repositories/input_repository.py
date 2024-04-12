@@ -39,10 +39,10 @@ class InputDataRepository:
     def get_all(self, page: int = 1, page_limit: int = 50) -> InputDataListOutput:
         total_input_query = self.session.query(func.count(InputData.id))
 
-        offers = self.session.query(InputData)
+        inputs = self.session.query(InputData)
 
         # Sort from oldest to newest
-        offers = offers.order_by(desc(InputData.created_at))
+        inputs = inputs.order_by(desc(InputData.created_at))
 
         total_offers = total_input_query.scalar()
 
@@ -51,12 +51,12 @@ class InputDataRepository:
         next_page = min(page + 1, total_pages) if page < total_pages else None
 
         offset = (page - 1) * page_limit if page > 0 else 0
-        offers = offers.offset(offset).limit(page_limit).all()
+        inputs = inputs.offset(offset).limit(page_limit).all()
 
-        offers_list = [InputData(**offer.__dict__) for offer in offers]
+        input_list = [InputDataOutput(**item.__dict__) for item in inputs]
 
         return InputDataListOutput(
-            offers=offers_list,
+            data=input_list,
             prev_page=prev_page,
             next_page=next_page,
         )

@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     SQLITE_CONNECTION_STRING: Optional[str] = "sqlite:///database.db"
     # Templates
     TEMPLATES: Jinja2Templates = Jinja2Templates(directory="templates")
+    # File path uploaded to process
+    UPLOAD_FILE_PATH = "uploads/"
 
 
 settings = Settings()

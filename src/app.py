@@ -8,6 +8,7 @@ from models.processed import ProcessedData
 from models.preprocess import PreprocessData
 from config.database import engine
 
+
 InputData.metadata.create_all(bind=engine)
 ProcessedData.metadata.create_all(bind=engine)
 PreprocessData.metadata.create_all(bind=engine)
