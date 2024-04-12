@@ -6,5 +6,32 @@
 </head>
 <body>
 <h1>Hello world</h1>
+
+<form action="/input" method="post" enctype="multipart/form-data">
+    <label for="type">Type:</label>
+    <select name="type" id="type">
+        <option value="text">Text</option>
+        <option value="article">Article URL</option>
+        <option value="youtube">YouTube URL</option>
+        <option value="file">File Path</option>
+    </select><br><br>
+
+    <label for="text">Text:</label>
+    <input type="text" id="text" name="text"><br><br>
+
+    <label for="article_url">Article URL:</label>
+    <input type="text" id="article_url" name="article_url"><br><br>
+
+    <label for="youtube_url">YouTube URL:</label>
+    <input type="text" id="youtube_url" name="youtube_url"><br><br>
+
+    <label for="file">Upload File (.txt or .pdf):</label>
+    <input type="file" id="file" name="file"><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+
+
 </body>
 </html>

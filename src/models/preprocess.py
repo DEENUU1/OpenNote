@@ -10,4 +10,4 @@ class PreprocessData(Base):
     content = Column(String)
     input_id = Column(Integer, ForeignKey('input.id'))
 
-    input = relationship("Input", back_populates="preprocess_data")
+    input = relationship("InputData", back_populates="preprocess_data")
