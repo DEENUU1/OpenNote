@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Optional, Final
 
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     # Templates
     TEMPLATES: Jinja2Templates = Jinja2Templates(directory="templates")
     # File path uploaded to process
-    UPLOAD_FILE_PATH = "uploads/"
+    UPLOAD_FILE_PATH: Final[str] = "uploads/"
 
 
 settings = Settings()

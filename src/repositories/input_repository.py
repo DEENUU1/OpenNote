@@ -26,7 +26,8 @@ class InputDataRepository:
         return self.session.query(InputData).filter(InputData.id == input_id).first()
 
     def get_details(self, input_id: int) -> InputDataDetails:
-        return InputDataDetails(**self.get_object(input_id).model_dump())
+        input_db = self.session.query(InputData).filter(InputData.id == input_id).first()
+        return InputDataDetails(**input_db.__dict__)
 
     def update_status(self, input_object: Type[InputData], status: str) -> bool:
         input_object.status = status
