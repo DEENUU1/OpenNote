@@ -3,6 +3,7 @@ from typing import Optional
 
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
+from fastapi.templating import Jinja2Templates
 
 load_dotenv()
 
@@ -17,6 +18,8 @@ class Settings(BaseSettings):
     TITLE: Optional[str] = os.getenv("TITLE")
     # SQLITE connection string
     SQLITE_CONNECTION_STRING: Optional[str] = "sqlite:///database.db"
+    # Templates
+    TEMPLATES: Jinja2Templates = Jinja2Templates(directory="templates")
 
 
 settings = Settings()

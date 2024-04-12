@@ -28,3 +28,11 @@ class InputDataService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Input not found")
 
         return self.input_repository.get_details(input_id)
+
+    def update_status(self, input_id: int, new_status: str) -> bool:
+        if not self.input_repository.input_object_exists(input_id):
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Input not found")
+
+        input_object = self.input_repository.get_object(input_id)
+
+        return self.input_repository.update_status(input_object, new_status)
