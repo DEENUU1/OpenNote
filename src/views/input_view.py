@@ -49,13 +49,26 @@ def create_input_data(
 
 
 @router.get("/", response_class=HTMLResponse)
-def home(request: Request, session: Session = Depends(get_db)):
-    input_list = InputDataService(session).get_all()
+def input_list(request: Request, session: Session = Depends(get_db)):
+    inputs = InputDataService(session).get_all()
 
     return settings.TEMPLATES.TemplateResponse(
         request=request,
         name="home.html",
         context={
-            "input_list": input_list,
+            "input_list": inputs,
+        }
+    )
+
+
+@router.get("/{input_id}", response_class=HTMLResponse)
+def input_details(input_id: int, request: Request, session: Session = Depends(get_db)):
+    details = InputDataService(session).get_details(input_id)
+
+    return settings.TEMPLATES.TemplateResponse(
+        request=request,
+        name="details.html",
+        context={
+            "details": details,
         }
     )

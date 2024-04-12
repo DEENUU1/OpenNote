@@ -35,6 +35,7 @@
 <div>
     {% for input in input_list.data %}
         {{input}}
+            <a href="{{ url_for('input_details', input_id=input.id) }}">Details</a>
             <form action="/input/{{ input.id }}" method="post">
                 <input type="hidden" name="_method" value="delete">
                 <button type="submit">Delete</button>
