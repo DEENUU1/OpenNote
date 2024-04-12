@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, DateTime, func
-from sqlalchemy.orm import relationship
 from config.database import Base
 from sqlalchemy import Enum as SQLAlchemyEnum
 from enum import Enum
@@ -15,6 +14,7 @@ class TypeEnum(str, Enum):
 class StatusEnum(str, Enum):
     NEW = "new"
     PREPROCESSING = "preprocessing"
+    PREPROCESSED = "preprocessed"
     PROCESSING = "processing"
     FAILED = "failed"
     DONE = "done"
@@ -29,9 +29,8 @@ class InputData(Base):
     article_url = Column(String, nullable=True)
     youtube_url = Column(String, nullable=True)
     file_path = Column(String, nullable=True)
+    preprocessed_content = Column(String, nullable=True)
+    processed_content = Column(String, nullable=True)
     status = Column(SQLAlchemyEnum(StatusEnum), nullable=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-
-    preprocess_data = relationship("PreprocessData", uselist=False, back_populates="input")
-    processed_data = relationship("ProcessedData", uselist=False, back_populates="input")

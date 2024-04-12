@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional, Type
-from schemas.input_schema import InputDataListOutput, InputDataOutput, InputDataInput
+from schemas.input_schema import InputDataListOutput, InputDataOutput, InputDataInput, InputDataDetails
 from models.input import InputData
 from sqlalchemy import func, desc
 
@@ -25,8 +25,8 @@ class InputDataRepository:
     def get_object(self, input_id: int) -> Type[InputData]:
         return self.session.query(InputData).filter(InputData.id == input_id).first()
 
-    def get_details(self, input_id: int) -> InputDataOutput:
-        return InputDataOutput(**self.get_object(input_id).model_dump())
+    def get_details(self, input_id: int) -> InputDataDetails:
+        return InputDataDetails(**self.get_object(input_id).model_dump())
 
     def update_status(self, input_object: Type[InputData], status: str) -> bool:
         input_object.status = status
@@ -60,3 +60,13 @@ class InputDataRepository:
             prev_page=prev_page,
             next_page=next_page,
         )
+
+    def update_preprocessed_content(self, input_object: Type[InputData], preprocessed_content: str) -> bool:
+        input_object.preprocessed_content = preprocessed_content
+        self.session.commit()
+        return True
+
+    def update_processed_content(self, input_object: Type[InputData], processed_content: str) -> bool:
+        input_object.processed_content = processed_content
+        self.session.commit()
+        return True

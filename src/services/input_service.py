@@ -1,8 +1,5 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional, Type
-from schemas.input_schema import InputDataListOutput, InputDataOutput, InputDataInput
-from models.input import InputData
-from sqlalchemy import func, desc
+from schemas.input_schema import InputDataListOutput, InputDataDetails
 from repositories.input_repository import InputDataRepository
 from fastapi import HTTPException, status
 
@@ -25,7 +22,7 @@ class InputDataService:
     def get_all(self, page: int = 1, page_limit: int = 50) -> InputDataListOutput:
         return self.input_repository.get_all(page, page_limit)
 
-    def get_details(self, input_id: int) -> InputDataOutput:
+    def get_details(self, input_id: int) -> InputDataDetails:
         if not self.input_repository.input_object_exists(input_id):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Input not found")
 

@@ -22,11 +22,16 @@ class InputDataOutput(BaseModel):
     file_path: Optional[str] = None
     status: StatusEnum
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime
 
 
 class InputDataListOutput(BaseModel):
     prev_page: Optional[int] = None
     next_page: Optional[int] = None
     data: List[Optional[InputDataOutput]]
+
+
+class InputDataDetails(InputDataOutput):
+    preprocessed_content: Optional[str] = None
+    processed_content: Optional[str] = None
 
