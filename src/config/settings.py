@@ -22,6 +22,14 @@ class Settings(BaseSettings):
     TEMPLATES: Jinja2Templates = Jinja2Templates(directory="templates")
     # File path uploaded to process
     UPLOAD_FILE_PATH: Final[str] = "uploads/"
+    # File path for downloaded Youtube video
+    YOUTUBE_FILE_PATH: Final[str] = "youtube/"
+    # File path audio chunks
+    AUDIO_CHUNK_FILE_PATH: Final[str] = "audio_chunks/"
+    # Whisper model
+    WHISPER_MODEL: str = "base"
+    # tiny, base, small, medium, large
+    # for more details about models check https://github.com/openai/whisper
 
 
 settings = Settings()

@@ -2,7 +2,7 @@ from typing import Optional
 from urllib.parse import urlparse, parse_qs
 
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import NoTranscriptFound
+from youtube_transcript_api._errors import NoTranscriptFound, TranscriptsDisabled
 
 
 class YoutubeTranscription:
@@ -28,9 +28,12 @@ class YoutubeTranscription:
 
     def get_youtube_transcription(self) -> Optional[str]:
         video_id = self.get_youtube_video_id(self.url)
-        print(video_id)
+        print(f"Youtube video id: {video_id}")
 
-        transcription_list = YouTubeTranscriptApi.list_transcripts(video_id)
+        try:
+            transcription_list = YouTubeTranscriptApi.list_transcripts(video_id)
+        except TranscriptsDisabled:
+            return
 
         fetched_transcription = None
 

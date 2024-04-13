@@ -11,7 +11,7 @@ def run_preprocess():
     youtube_preprocessing = YoutubePreprocessStrategy()
 
     preprocess = Preprocess(youtube_preprocessing)
-    preprocess.run(2, next(get_db()))
+    preprocess.run(11, next(get_db()))
 
 
 
