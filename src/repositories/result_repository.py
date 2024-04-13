@@ -1,6 +1,7 @@
 from models.result import Result
 from schemas.result_schema import ResultInput, ResultOutput
 from sqlalchemy.orm import Session
+from typing import List, Type
 
 
 class ResultRepository:
@@ -13,12 +14,17 @@ class ResultRepository:
         self.session.commit()
         return True
 
-    def get_all(self) -> ResultOutput:
+    def get_all(self) -> List[ResultOutput]:
         results = self.session.query(Result).all()
-        return ResultOutput(results=[result.__dict__ for result in results])
+        return [ResultOutput(**result.__dict__) for result in results]
 
-    def delete(self, result_id: int) -> bool:
-        result = self.session.query(Result).filter(Result.id == result_id).first()
-        self.session.delete(result)
+    def delete(self, result_db: Type[Result]) -> bool:
+        self.session.delete(result_db)
         self.session.commit()
         return True
+
+    def get_object(self, result_id: int) -> Type[Result]:
+        return self.session.query(Result).filter(Result.id == result_id).first()
+
+    def result_exists(self, result_id: int) -> bool:
+        return self.session.query(Result).filter(Result.id == result_id).first() is not None
