@@ -40,6 +40,10 @@
                 <input type="hidden" name="_method" value="delete">
                 <button type="submit">Delete</button>
             </form>
+            <form action="/preprocess/{{input.id}}" method="post">
+                <input type="hidden" name="_method" value="preprocess">
+                <button type="submit">Preprocess</button>
+            </form>
     {% endfor %}
 </div>
 
