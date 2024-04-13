@@ -3,11 +3,9 @@ from fastapi.staticfiles import StaticFiles
 
 from config.settings import settings
 from views.router import router
-from models.input import InputData
-from config.database import engine
+from utils.init_app import init_app
 
-
-InputData.metadata.create_all(bind=engine)
+init_app()
 
 app = FastAPI(
     debug=settings.DEBUG,
