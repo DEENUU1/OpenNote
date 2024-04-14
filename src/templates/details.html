@@ -4,44 +4,68 @@
 
 {% block content %}
 
-id: {{details.id}} <br><br>
+<div class="container mt-2">
+    <h1 class="mt-3">{{details.title}}</h1>
+    <div>
+        <span class="badge bg-primary">{{details.type.value}}</span>
+        <span class="badge bg-primary">{{details.status.value}}</span>
+    </div>
 
-type: {{details.type}} <br><br>
+    <div class="card-text">
+        {% if details.text %}
+            <p>{{details.text}}</p>
+        {% endif %}
 
-status: {{details.status}} <br><br>
+        {% if details.article_url %}
+            <a href="{{article_url}}">{{details.article_url}}</a>
+        {% endif %}
 
-text: {{details.text}} <br><br>
+        {% if details.youtube_url %}
+            <a href="{{youtube_url}}">{{details.youtube_url}}</a>
+        {% endif %}
 
-article url: {{details.article_url}} <br><br>
+        {% if details.file_path %}
+            <span>{{details.file_path}}</span>
+        {% endif %}
+    </div>
 
-youtube url: {{details.youtube_url}} <br><br>
+    <h2 class="mt-3">Preprocessed content</h2>
+    <div class="preprocess_div">
+        {% if details.preprocessed_content %}
+            <p>{{details.preprocessed_content}}</p>
+        {% else %}
+            <p>No content to display</p>
+        {% endif %}
+    </div>
 
-file path: {{details.file_path}} <br><br>
+    <div>
+        <h2 class="mt-3">Results</h2>
 
-preprocessed_content: {{details.preprocessed_content}} <br><br>
+        <form action="result/{{details.id}}" method="post" class="mb-5 d-flex">
+            <select class="form-select" name="result_type" id="type">
+                <option value="note" selected>Note</option>
+                <option value="summary">Summary</option>
+            </select>
+            <input type="submit" class="btn btn-success" value="Generate">
+        </form>
 
-<h2>Results</h2>
+        {% if details.results %}
+            {% for result in details.results %}
+                <div class="mb-3 mt-2">
+                    <span class="badge bg-dark">{{result.type.value}}</span>
+                    <span>{{result.created_at}}</span>
+                    <div class="result">
+                        <p>{{result.result}}</p>
+                        <button class="btn btn-primary copy-button" data-result="{{ result.result }}">Copy</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            No results
+        {% endif %}
 
-<form action="result/{{details.id}}" method="post">
-    <label for="type">Result type:</label>
-    <select name="result_type" id="type">
-        <option value="note">Note</option>
-        <option value="summary">Summary</option>
-    </select>
-    <input type="submit" value="Submit">
-</form>
+    </div>
 
-<br><br>
-
-{% if details.results %}
-    {% for result in details.results %}
-        id: {{result.id}} <br><br>
-        type: {{result.type}} <br><br>
-        result: {{result.result}} <br><br>
-        created_at: {{result.created_at}} <br><br>
-    {% endfor %}
-{% else %}
-    No results
-{% endif %}
+</div>
 
 {% endblock %}

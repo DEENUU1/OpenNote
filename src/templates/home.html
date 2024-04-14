@@ -49,6 +49,8 @@
                 <a href="{{ url_for('input_details', input_id=input.id) }}">{{input.title}}</a>
             </h5>
             <span class="badge text-bg-secondary rounded-pill bg-primary">{{input.type.value}}</span>
+            <span class="badge text-bg-secondary rounded-pill bg-primary">{{input.status.value}}</span>
+
 
             <div class="card-text">
                 {% if input.text %}
