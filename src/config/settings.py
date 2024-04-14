@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # Debug mode is set by default to True because it's local application
     DEBUG: bool = True
     # Title is the name of application
-    TITLE: Optional[str] = os.getenv("TITLE")
+    TITLE: str = "OpenNote"
     # SQLITE connection string
     SQLITE_CONNECTION_STRING: Optional[str] = "sqlite:///database.db"
     # Templates
@@ -27,10 +27,10 @@ class Settings(BaseSettings):
     # File path audio chunks
     AUDIO_CHUNK_FILE_PATH: Final[str] = "audio_chunks/"
     # Whisper model
-    WHISPER_MODEL: str = "base"
+    WHISPER_MODEL: str = os.getenv("WHISPER_MODEL")
     # tiny, base, small, medium, large
     # for more details about models check https://github.com/openai/whisper
-    LLM_MODEL: str = "llama2"
+    LLM_MODEL: str = os.getenv("LLM_MODEL")
     # ...
     LANGCHAIN_DEBUG: bool = os.getenv("LANGCHAIN_DEBUG") == "True"
 
