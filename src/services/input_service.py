@@ -30,7 +30,6 @@ class InputDataService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Input not found")
 
         result_list = self.result_repository.get_all_by_input_id(input_id)
-        print(result_list)
         input_details = self.input_repository.get_details(input_id)
         input_details.results = result_list
         return input_details
