@@ -1,4 +1,4 @@
-from fastapi import Request, APIRouter, Depends, Form, UploadFile
+from fastapi import Request, APIRouter, Depends, Form, UploadFile, BackgroundTasks
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from starlette import status
@@ -11,6 +11,7 @@ from models.input import TypeEnum
 from typing import Optional
 from fastapi.responses import RedirectResponse
 from utils.upload_file import upload_file
+from tasks.preprocess import run_preprocess
 
 
 router = APIRouter(
@@ -27,6 +28,7 @@ def delete_input_data(input_id: int, session: Session = Depends(get_db)):
 
 @router.post("/input", status_code=303)
 def create_input_data(
+        background_tasks: BackgroundTasks,
         type: TypeEnum = Form(...),
         text: Optional[str] = Form(None),
         article_url: Optional[str] = Form(None),
@@ -36,7 +38,9 @@ def create_input_data(
 ):
     uploaded_file = upload_file(file)
 
-    InputDataService(session).create(
+    service = InputDataService(session)
+
+    created_input = service.create(
         input_data=InputDataInput(
             type=type,
             text=text,
@@ -45,6 +49,8 @@ def create_input_data(
             file_path=uploaded_file
         )
     )
+
+    background_tasks.add_task(run_preprocess, created_input, session)
     return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
 
 

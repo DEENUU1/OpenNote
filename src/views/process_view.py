@@ -23,4 +23,4 @@ def generate_result(input_id: int, result_type: TypeEnum = Form(...), session: S
             type=result_type
         )
     )
-    return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse(f"/{input_id}", status_code=status.HTTP_303_SEE_OTHER)

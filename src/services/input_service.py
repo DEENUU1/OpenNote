@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from repositories.input_repository import InputDataRepository
-from schemas.input_schema import InputDataListOutput, InputDataDetails
+from schemas.input_schema import InputDataListOutput, InputDataDetails, InputDataOutput
 from repositories.result_repository import ResultRepository
 
 
@@ -11,7 +11,7 @@ class InputDataService:
         self.input_repository = InputDataRepository(session)
         self.result_repository = ResultRepository(session)
 
-    def create(self, input_data) -> bool:
+    def create(self, input_data) -> InputDataOutput:
         return self.input_repository.create(input_data)
 
     def delete(self, input_id: int) -> bool:

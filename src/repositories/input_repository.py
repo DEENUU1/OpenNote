@@ -10,12 +10,12 @@ class InputDataRepository:
     def __init__(self, session: Session):
         self.session: Session = session
 
-    def create(self, input_data: InputDataInput) -> bool:
+    def create(self, input_data: InputDataInput) -> InputDataOutput:
         db_input = InputData(**input_data.model_dump())
         self.session.add(db_input)
         self.session.commit()
         self.session.refresh(db_input)
-        return True
+        return InputDataOutput(**db_input.__dict__)
 
     def delete(self, input_object: Type[InputDataInput]) -> bool:
         self.session.delete(input_object)
