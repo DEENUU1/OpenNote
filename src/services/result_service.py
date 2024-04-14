@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from schemas.result_schema import ResultInput
 from fastapi.exceptions import HTTPException
 from repositories.input_repository import InputDataRepository
-from processor.llm import LLMProcess
+from tasks.process import generate_llm_result
 
 
 class ResultService:
@@ -17,8 +17,7 @@ class ResultService:
 
         input_data_db = self.input_data_repository.get_object(result_data.input_id)
 
-        llm_process = LLMProcess()
-        llm_result = llm_process.process(input_data_db.preprocessed_content, result_data.type)
+        llm_result = generate_llm_result(input_data_db, result_data)
 
         result_data.result = llm_result
         self.result_repository.create(result_data)
