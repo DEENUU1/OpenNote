@@ -18,3 +18,10 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(router)
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app)
+
