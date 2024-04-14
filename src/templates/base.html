@@ -12,6 +12,7 @@
     <script src="{{ url_for('static', path='/copyText.js')}}"></script>
 </head>
 <body>
+    {% include "nav_bar.html" %}
     {% block content %}
     {% endblock %}
 </body>

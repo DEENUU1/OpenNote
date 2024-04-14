@@ -33,6 +33,8 @@
     <div class="preprocess_div">
         {% if details.preprocessed_content %}
             <p>{{details.preprocessed_content}}</p>
+            <button class="btn btn-primary copy-button" data-result="{{ details.preprocessed_content }}">Copy</button>
+
         {% else %}
             <p>No content to display</p>
         {% endif %}

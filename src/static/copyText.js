@@ -1,6 +1,5 @@
 window.onload = function () {
     document.querySelectorAll('.copy-button').forEach(item => {
-        console.log("Dupa")
         item.addEventListener('click', event => {
             const textToCopy = event.currentTarget.getAttribute('data-result');
             const textArea = document.createElement('textarea');
