@@ -5,49 +5,54 @@
 
 {% block content %}
 
-<form action="/input" method="post" enctype="multipart/form-data">
-    <label for="type">Type:</label>
-    <select name="type" id="type">
-        <option value="text">Text</option>
-        <option value="article">Article URL</option>
-        <option value="youtube">YouTube URL</option>
-        <option value="file">File Path</option>
-    </select><br><br>
+<div class="container">
+    <form action="/input" method="post" enctype="multipart/form-data" class="mb-5 mt-5">
+        <div class="form-group">
+            <label for="type">Type:</label>
+            <select class="form-control" name="type" id="type">
+                <option value="text" selected>Text</option>
+                <option value="article">Article URL</option>
+                <option value="youtube">YouTube URL</option>
+                <option value="file">File Path</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div id="textContainer" style="display: none;" class="form-group">
+            <label for="text">Text:</label>
+            <input type="text" class="form-control" id="text" name="text">
+        </div>
+        <div id="articleUrlContainer" style="display: none;" class="form-group">
+            <label for="article_url">Article URL:</label>
+            <input type="text" class="form-control" id="article_url" name="article_url">
+        </div>
+        <div id="youtubeUrlContainer" style="display: none;" class="form-group">
+            <label for="youtube_url">YouTube URL:</label>
+            <input type="text" class="form-control" id="youtube_url" name="youtube_url">
+        </div>
+        <div id="fileContainer" style="display: none;" class="form-group">
+            <label for="file">Upload File (.txt or .pdf):</label>
+            <input type="file" class="form-control-file" id="file" name="file">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
-    <div id="textContainer" style="display: none;">
-        <label for="text">Text:</label>
-        <input type="text" id="text" name="text"><br><br>
-    </div>
 
-    <div id="articleUrlContainer" style="display: none;">
-        <label for="article_url">Article URL:</label>
-        <input type="text" id="article_url" name="article_url"><br><br>
-    </div>
-
-    <div id="youtubeUrlContainer" style="display: none;">
-        <label for="youtube_url">YouTube URL:</label>
-        <input type="text" id="youtube_url" name="youtube_url"><br><br>
-    </div>
-
-    <div id="fileContainer" style="display: none;">
-        <label for="file">Upload File (.txt or .pdf):</label>
-        <input type="file" id="file" name="file"><br><br>
-    </div>
-
-    <input type="submit" value="Submit">
-</form>
-
-<div>
+<div class="container">
     {% for input in input_list.data %}
     <div class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">
-                <span>{{input.type.value}}</span>
+                <a href="{{ url_for('input_details', input_id=input.id) }}">{{input.title}}</a>
             </h5>
+            <span class="badge text-bg-secondary rounded-pill bg-primary">{{input.type.value}}</span>
 
             <div class="card-text">
                 {% if input.text %}
-                <p>{{input.text[:100]}}</p>
+                <p>{{input.text[:100]}}...</p>
                 {% endif %}
 
                 {% if input.article_url %}
@@ -63,21 +68,20 @@
                 {% endif %}
             </div>
 
-            <div>
-                <a href="{{ url_for('input_details', input_id=input.id) }}">Details</a>
+            <div class="btn-group gap-2" role="group">
                 <form action="/input/{{ input.id }}" method="post">
                     <input type="hidden" name="_method" value="delete">
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
                 <form action="/preprocess/{{input.id}}" method="post">
                     <input type="hidden" name="_method" value="preprocess">
-                    <button type="submit">Preprocess</button>
+                    <button type="submit" class="btn btn-primary">Preprocess</button>
                 </form>
             </div>
-            <p class="card-text"><small class="text-body-secondary"><span>{{input.created_at}}</span></small></p>
+
+            <p class="card-text mt-2"><small class="text-body-secondary"><span>{{input.created_at}}</span></small></p>
         </div>
     </div>
-
 
     {% endfor %}
 </div>

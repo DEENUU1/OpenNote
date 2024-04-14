@@ -19,6 +19,7 @@ window.onload = function () {
 
     function toggleInputs() {
         const selectedType = typeSelect.value;
+
         if (selectedType === "text") {
             toggleContainer(textContainer);
         } else if (selectedType === "article") {
@@ -32,5 +33,8 @@ window.onload = function () {
 
     typeSelect.addEventListener("change", toggleInputs);
 
-    hideAllContainers();
+    toggleInputs();
+
+    typeSelect.value = "text";
 };
+
