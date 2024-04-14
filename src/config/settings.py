@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     WHISPER_MODEL: str = "base"
     # tiny, base, small, medium, large
     # for more details about models check https://github.com/openai/whisper
+    LLM_MODEL: str = "llama2"
+    # ...
+    LANGCHAIN_DEBUG: bool = os.getenv("LANGCHAIN_DEBUG") == "True"
 
 
 settings = Settings()

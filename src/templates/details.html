@@ -6,6 +6,8 @@
 </head>
 <body>
 
+
+
 id: {{details.id}} <br><br>
 
 type: {{details.type}} <br><br>
@@ -22,7 +24,29 @@ file path: {{details.file_path}} <br><br>
 
 preprocessed_content: {{details.preprocessed_content}} <br><br>
 
-processed_content: {{details.processed_content}} <br><br>
+<h2>Results</h2>
+
+<form action="result/{{details.id}}" method="post">
+    <label for="type">Result type:</label>
+    <select name="result_type" id="type">
+        <option value="note">Note</option>
+        <option value="summary">Summary</option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
+
+<br><br>
+
+{% if details.results %}
+    {% for result in details.results %}
+        id: {{result.id}} <br><br>
+        type: {{result.type}} <br><br>
+        result: {{result.result}} <br><br>
+        created_at: {{result.created_at}} <br><br>
+    {% endfor %}
+{% else %}
+    No results
+{% endif %}
 
 </body>
 </html>

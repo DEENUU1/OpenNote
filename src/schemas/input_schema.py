@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from models.input import TypeEnum, StatusEnum
 from typing import Optional, List
 from datetime import datetime
+from .result_schema import ResultOutput
 
 
 class InputDataInput(BaseModel):
@@ -33,5 +34,4 @@ class InputDataListOutput(BaseModel):
 
 class InputDataDetails(InputDataOutput):
     preprocessed_content: Optional[str] = None
-    processed_content: Optional[str] = None
-
+    results: List[ResultOutput] = []

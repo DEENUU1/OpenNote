@@ -17,6 +17,6 @@ router = APIRouter(
 @router.post("/{input_id}", status_code=303)
 def run_preprocess_tasks(input_id: int, session: Session = Depends(get_db)):
     input_details = InputDataService(session).get_details(input_id)
-    run_preprocess(input_details)
+    run_preprocess(input_details, session)
 
     return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)

@@ -9,13 +9,13 @@ class ResultRepository:
         self.session = session
 
     def create(self, result_data: ResultInput) -> bool:
-        result = Result(**result_data.dict())
+        result = Result(**result_data.model_dump())
         self.session.add(result)
         self.session.commit()
         return True
 
-    def get_all(self) -> List[ResultOutput]:
-        results = self.session.query(Result).all()
+    def get_all_by_input_id(self, input_id: int) -> List[ResultOutput]:
+        results = self.session.query(Result).filter(Result.input_id == input_id).all()
         return [ResultOutput(**result.__dict__) for result in results]
 
     def delete(self, result_db: Type[Result]) -> bool:
