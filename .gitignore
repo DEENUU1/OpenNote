@@ -1,3 +1,8 @@
+.idea/
+src/audio_chunks/
+src/database.db
+src/youtube
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
