@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block scripts %}
+    <script src="{{ url_for('static', path='/copyText.js')}}"></script>
+{% endblock %}
+
 {% block meta_title %} OpenNote | {{details.title}} {% endblock %}
 
 {% block content %}
