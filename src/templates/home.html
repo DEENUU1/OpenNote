@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Hello world</h1>
+{% extends 'base.html' %}
+
+{% block meta_title %} OpenNote {% endblock %}
+
+
+{% block content %}
 
 <form action="/input" method="post" enctype="multipart/form-data">
     <label for="type">Type:</label>
@@ -16,36 +14,72 @@
         <option value="file">File Path</option>
     </select><br><br>
 
-    <label for="text">Text:</label>
-    <input type="text" id="text" name="text"><br><br>
+    <div id="textContainer" style="display: none;">
+        <label for="text">Text:</label>
+        <input type="text" id="text" name="text"><br><br>
+    </div>
 
-    <label for="article_url">Article URL:</label>
-    <input type="text" id="article_url" name="article_url"><br><br>
+    <div id="articleUrlContainer" style="display: none;">
+        <label for="article_url">Article URL:</label>
+        <input type="text" id="article_url" name="article_url"><br><br>
+    </div>
 
-    <label for="youtube_url">YouTube URL:</label>
-    <input type="text" id="youtube_url" name="youtube_url"><br><br>
+    <div id="youtubeUrlContainer" style="display: none;">
+        <label for="youtube_url">YouTube URL:</label>
+        <input type="text" id="youtube_url" name="youtube_url"><br><br>
+    </div>
 
-    <label for="file">Upload File (.txt or .pdf):</label>
-    <input type="file" id="file" name="file"><br><br>
+    <div id="fileContainer" style="display: none;">
+        <label for="file">Upload File (.txt or .pdf):</label>
+        <input type="file" id="file" name="file"><br><br>
+    </div>
 
     <input type="submit" value="Submit">
 </form>
 
-
 <div>
     {% for input in input_list.data %}
-        {{input}}
-            <a href="{{ url_for('input_details', input_id=input.id) }}">Details</a>
-            <form action="/input/{{ input.id }}" method="post">
-                <input type="hidden" name="_method" value="delete">
-                <button type="submit">Delete</button>
-            </form>
-            <form action="/preprocess/{{input.id}}" method="post">
-                <input type="hidden" name="_method" value="preprocess">
-                <button type="submit">Preprocess</button>
-            </form>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                <span>{{input.type.value}}</span>
+            </h5>
+
+            <div class="card-text">
+                {% if input.text %}
+                <p>{{input.text[:100]}}</p>
+                {% endif %}
+
+                {% if input.article_url %}
+                <a href="{{article_url}}">{{input.article_url}}</a>
+                {% endif %}
+
+                {% if input.youtube_url %}
+                <a href="{{youtube_url}}">{{input.youtube_url}}</a>
+                {% endif %}
+
+                {% if input.file_path %}
+                <span>{{input.file_path}}</span>
+                {% endif %}
+            </div>
+
+            <div>
+                <a href="{{ url_for('input_details', input_id=input.id) }}">Details</a>
+                <form action="/input/{{ input.id }}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit">Delete</button>
+                </form>
+                <form action="/preprocess/{{input.id}}" method="post">
+                    <input type="hidden" name="_method" value="preprocess">
+                    <button type="submit">Preprocess</button>
+                </form>
+            </div>
+            <p class="card-text"><small class="text-body-secondary"><span>{{input.created_at}}</span></small></p>
+        </div>
+    </div>
+
+
     {% endfor %}
 </div>
 
-</body>
-</html>
+{% endblock %}

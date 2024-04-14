@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
+{% block meta_title %} OpenNote | {{details.id}} {% endblock %}
 
+{% block content %}
 
 id: {{details.id}} <br><br>
 
@@ -48,5 +44,4 @@ preprocessed_content: {{details.preprocessed_content}} <br><br>
     No results
 {% endif %}
 
-</body>
-</html>
+{% endblock %}
