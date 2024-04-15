@@ -4,6 +4,7 @@ from schemas.result_schema import ResultInput
 from fastapi.exceptions import HTTPException
 from repositories.input_repository import InputDataRepository
 from tasks.process import generate_llm_result
+from enums.model_enum import ModelEnum
 
 
 class ResultService:
@@ -11,13 +12,13 @@ class ResultService:
         self.result_repository = ResultRepository(session)
         self.input_data_repository = InputDataRepository(session)
 
-    def create(self, result_data: ResultInput) -> bool:
+    def create(self, result_data: ResultInput, model_type: ModelEnum) -> bool:
         if not self.input_data_repository.input_object_exists(result_data.input_id):
             raise HTTPException(status_code=404, detail="Input data not found")
 
         input_data_db = self.input_data_repository.get_object(result_data.input_id)
 
-        llm_result = generate_llm_result(input_data_db, result_data)
+        llm_result = generate_llm_result(input_data_db, result_data, model_type)
 
         result_data.result = llm_result
         self.result_repository.create(result_data)

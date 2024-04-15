@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     LLM_MODEL: str = os.getenv("LLM_MODEL")
     # ...
     LANGCHAIN_DEBUG: bool = os.getenv("LANGCHAIN_DEBUG") == "True"
+    OPENAI_APIKEY: Optional[str] = os.getenv("OPENAI_APIKEY", None)
 
 
 settings = Settings()
