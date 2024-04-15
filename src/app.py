@@ -7,7 +7,7 @@ from utils.init_app import init_app
 import langchain
 
 
-langchain.debug = False#settings.LANGCHAIN_DEBUG
+langchain.debug = settings.LANGCHAIN_DEBUG
 init_app()
 
 app = FastAPI(
