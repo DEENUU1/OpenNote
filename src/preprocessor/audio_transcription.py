@@ -14,6 +14,10 @@ class AudioTranscription:
         self.whisper_model = whisper_model
         self.chunk_size = chunk_size
 
+    @staticmethod
+    def numerical_sort(chunk) -> int:
+        return int(chunk.split('_')[1].split('.')[0])
+
     def split_audio_to_chunks(self) -> Optional[str]:
         try:
             audio = AudioSegment.from_file(self.audio_file_path)
@@ -52,7 +56,9 @@ class AudioTranscription:
         audio_path = self.split_audio_to_chunks()
         if not audio_path:
             return None
-        for chunk in os.listdir(audio_path):
+
+        sorted_chunks = sorted(os.listdir(audio_path), key=self.numerical_sort)
+        for chunk in sorted_chunks:
             chunk_path = f"{audio_path}/{chunk}"
             transcription = self.transcribe_audio(chunk_path)
             if not transcription:
