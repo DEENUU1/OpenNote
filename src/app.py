@@ -4,9 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from config.settings import settings
 from views.router import router
 from utils.init_app import init_app
-import langchain
 
-langchain.debug = settings.LANGCHAIN_DEBUG
 init_app()
 
 app = FastAPI(

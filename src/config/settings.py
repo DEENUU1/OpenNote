@@ -30,9 +30,8 @@ class Settings(BaseSettings):
     WHISPER_MODEL: str = os.getenv("WHISPER_MODEL")
     # tiny, base, small, medium, large
     # for more details about models check https://github.com/openai/whisper
-    LLM_MODEL: str = os.getenv("LLM_MODEL")
+    LLM_MODEL: Optional[str] = os.getenv("LLM_MODEL")
     # LLMs
-    LANGCHAIN_DEBUG: bool = os.getenv("LANGCHAIN_DEBUG") == "True"
     OPENAI_APIKEY: Optional[str] = os.getenv("OPENAI_APIKEY", None)
     GROQ_APIKEY: Optional[str] = os.getenv("GROQ_APIKEY", None)
 

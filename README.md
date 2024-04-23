@@ -21,7 +21,7 @@
 </div>
 
 <img src="assets/home.png" alt="home_page"/>
-<img src="assets/details.png" alt="details_page"/>
+<img src="assets/results.png" alt="details_page"/>
 
 
 ## About the project
@@ -88,14 +88,16 @@ cp .env_example .env
 ```
 
 #### How to set up AI models in .env file
-`LLM_MODEL` here you can select one of model from this list https://ollama.com/library (codegemma, gemma, llama2, mistral, ...)
-`WHISPER_MODEL` here you can select one of model from this list https://github.com/openai/whisper (tiny, base, small, medium, large)
+`LLM_MODEL` (OPTIONAL) If you want to use Ollama here you can select one of model from this list https://ollama.com/library (codegemma, gemma, llama2, mistral, ...) <br><br>
+`OPENAI_APIKEY` (OPTIONAL) If you want to use OpenAI with models (GPT4/GPT3.5-Turbo) here you can add your API KEY <br><br>
+`GROQ_APIKEY` (OPTIONAL) If you want to use GROQ API with models (Llama3/Llama2 etc.) here you can add API KEY <br><br>
+`WHISPER_MODEL` (OPTIONAL)  here you can select one of model from this list https://github.com/openai/whisper (tiny, base, small, medium, large) <br>
 
-### Install FFmpeg on your machine
+### (OPTIONAL)  Install FFmpeg on your machine
 It's available on Windows, MacOS and Linux
 https://ffmpeg.org/download.html
 
-### Install Ollama to manage LLM models
+### (OPTIONAL)  Install Ollama to manage LLM models
 https://ollama.com/
 
 
