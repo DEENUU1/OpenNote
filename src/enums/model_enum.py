@@ -6,3 +6,7 @@ class ModelEnum(str, Enum):
     GPT4 = "gpt4"
     LLAMA2 = "llama2"
     MISTRAL = "mistral"
+    GROQ_LLAMA_3_70_B = "llama3-70b-8192"
+    GROQ_MIXTRAL = "mixtral-8x7b-32768"
+    GROQ_GEMMA = "gemma-7b-it"
+
