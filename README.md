@@ -64,7 +64,6 @@ Everything is done by using artificial intelligence models that run locally on t
 ## Technologies:
 - Python
     - FastAPI
-    - Langchain
     - Selenium
     - Beautiful Soup 4
 - SQLite
@@ -74,6 +73,8 @@ Everything is done by using artificial intelligence models that run locally on t
 - Powershell
 - Ollama
 - Whisper 
+- OpenAI
+- Groq
 
 ## Installation
 
