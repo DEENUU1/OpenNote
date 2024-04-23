@@ -1,17 +1,16 @@
-from typing import Optional, Union, List
+from typing import Optional, List
 
+import ollama
 from groq import Groq
 from langchain import OpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.llms import Ollama
 from langchain_core.documents import Document
-from langchain_core.prompts import PromptTemplate
+from openai import OpenAI
 
 from config.settings import settings
-from enums.model_enum import ModelEnum
+from enums.model_enum import ModelEnum, ModelType
 from models.result import TypeEnum
 from .prompt import get_prompt
-from langchain_groq import ChatGroq
 
 
 class LLMProcess:
@@ -25,13 +24,13 @@ class LLMProcess:
         self.chunk_overlap = chunk_overlap
         self.model_type = model_type
 
-    def get_llm(self) -> Optional[Union[Ollama, Groq]]:
+    def get_llm(self) -> Optional[ModelType]:
         if (
                 self.model_type == ModelEnum.LLAMA2
                 or
                 self.model_type == ModelEnum.MISTRAL
         ):
-            return Ollama(model=settings.LLM_MODEL)
+            return ModelType.OLLAMA
 
         elif (
                 self.model_type == ModelEnum.GPT3_5_TURBO
@@ -41,7 +40,7 @@ class LLMProcess:
             if not settings.OPENAI_APIKEY:
                 raise Exception("OpenAI API key is not set")
 
-            return OpenAI(openai_api_key=settings.OPENAI_APIKEY, model_name=self.model_type)
+            return ModelType.OPENAI
 
         elif (
                 self.model_type == ModelEnum.GROQ_LLAMA_3_70_B
@@ -53,7 +52,7 @@ class LLMProcess:
             if not settings.GROQ_APIKEY:
                 raise Exception("GROQ API key is not set")
 
-            return Groq(api_key=settings.GROQ_APIKEY)
+            return ModelType.GROQ
 
         return None
 
@@ -63,8 +62,9 @@ class LLMProcess:
         if not llm:
             return None
 
-        if isinstance(llm, Groq):
-            groq_result = llm.chat.completions.create(
+        if llm == ModelType.GROQ:
+            groq = Groq(api_key=settings.GROQ_APIKEY)
+            groq_result = groq.chat.completions.create(
                 messages=[{
                     "role": "user",
                     "content": prompt
@@ -72,6 +72,31 @@ class LLMProcess:
                 model=self.model_type.value
             )
             return groq_result.choices[0].message.content
+
+        elif llm == ModelType.OLLAMA:
+            ollama_result = ollama.chat(
+                model=self.model_type.value,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ]
+            )
+            return ollama_result["message"]["content"]
+
+        elif llm == ModelType.OPENAI:
+            client = OpenAI(api_key=settings.OPENAI_APIKEY)
+            openai_result = client.chat.completions.create(
+                messages=[
+                    {
+                        "user": "user",
+                        "content": prompt
+                    }
+                ],
+                model=self.model_type.value
+            )
+            return openai_result.choices[0].message.content
 
     def split_text_to_chunks(self, text: str) -> List[Document]:
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap)

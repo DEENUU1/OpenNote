@@ -10,3 +10,8 @@ class ModelEnum(str, Enum):
     GROQ_MIXTRAL = "mixtral-8x7b-32768"
     GROQ_GEMMA = "gemma-7b-it"
 
+
+class ModelType(str, Enum):
+    OPENAI = "openai"
+    GROQ = "groq"
+    OLLAMA = "ollama"
