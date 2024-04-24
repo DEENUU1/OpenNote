@@ -7,8 +7,12 @@ from enum import Enum
 
 
 class TypeEnum(str, Enum):
-    NOTE = "note"
-    SUMMARY = "summary"
+    DETAILED_NOTE = "detailed_note"
+    QUICK_NOTE = "quick_note"
+    DETAILED_SUMMARY = "detailed_summary"
+    QUICK_SUMMARY = "quick_summary"
+    KEY_TOPICS = "key_topics"
+    LIKE_IAM_5 = "like_iam_5"
 
 
 class Result(Base):

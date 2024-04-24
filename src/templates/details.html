@@ -61,8 +61,12 @@
 
         <form action="result/{{details.id}}" method="post" class="mb-5 d-flex">
             <select class="form-select" name="result_type" id="type">
-                <option value="note" selected>Note</option>
-                <option value="summary">Summary</option>
+                <option value="detailed_note" selected>Detailed note</option>
+                <option value="quick_note">Quick note</option>
+                <option value="detailed_summary">Detailed summary</option>
+                <option value="quick_summary">Quick summary</option>
+                <option value="key_topics">Quick topics</option>
+                <option value="like_iam_5">Like Iam 5</option>
             </select>
             <select class="form-select" name="model_type" id="model">
                 <option value="llama3-70b-8192" selected>GROQ LLama3 70b</option>
