@@ -2,6 +2,7 @@
 
 {% block scripts %}
     <script src="{{ url_for('static', path='/copyText.js')}}"></script>
+    <script src="{{ url_for('static', path='/mdFormatter.js')}}"></script>
 {% endblock %}
 
 {% block meta_title %} OpenNote | {{details.title}} {% endblock %}
@@ -92,13 +93,18 @@
                 <div id="collapse-{{result.id}}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                       <div class="accordion-body">
                         <div class="preprocess_div">
-                            {{result.result }}
+                            <div id="formattedText-{{result.id}}" class="container mt-3"></div>
                             <button class="btn btn-primary copy-button" data-result="{{ result.result }}">Copy</button>
                         </div>
                       </div>
                 </div>
             </div>
 
+
+            <script>
+                const markdownResult = {;{ result.result | tojson | safe }};
+                document.getElementById('formattedText-{{result.id}}').innerHTML = convertMarkdownToHTML(markdownResult);
+            </script>
 
             {% endfor %}
         {% else %}
@@ -108,5 +114,7 @@
     </div>
 
 </div>
+
+
 
 {% endblock %}
