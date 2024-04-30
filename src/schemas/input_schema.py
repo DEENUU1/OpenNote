@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from models.input import TypeEnum, StatusEnum, WhisperType
+from models.input import TypeEnum, StatusEnum, TranscriptionType
 from typing import Optional, List
 from datetime import datetime
 from .result_schema import ResultOutput
@@ -13,7 +13,7 @@ class InputDataInput(BaseModel):
     youtube_url: Optional[str] = None
     file_path: Optional[str] = None
     status: StatusEnum = StatusEnum.NEW
-    whisper_type: Optional[WhisperType] = None
+    transcription_type: Optional[TranscriptionType] = None
 
 
 class InputDataOutput(BaseModel):
@@ -24,7 +24,7 @@ class InputDataOutput(BaseModel):
     article_url: Optional[str] = None
     youtube_url: Optional[str] = None
     file_path: Optional[str] = None
-    whisper_type: Optional[WhisperType] = None
+    transcription_type: Optional[TranscriptionType] = None
     status: StatusEnum
     created_at: datetime
     updated_at: datetime

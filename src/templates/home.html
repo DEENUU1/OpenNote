@@ -36,6 +36,14 @@
             <label for="file">Upload File (.txt or .pdf):</label>
             <input type="file" class="form-control-file" id="file" name="file">
         </div>
+        <div id="transcriptionTypeContainer" style="display: none;" class="form-group">
+            <label for="transcription_type">Transcription type: </label>
+            <select class="form-control" name="transcription_type" id="transcription_type">
+                <option value="generated" selected>Generated</option>
+                <option value="whisper_api">Whisper API</option>
+                <option value="whisper_local">Whisper Local</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

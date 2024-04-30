@@ -4,6 +4,7 @@ window.onload = function () {
     const articleUrlContainer = document.getElementById("articleUrlContainer");
     const youtubeUrlContainer = document.getElementById("youtubeUrlContainer");
     const fileContainer = document.getElementById("fileContainer");
+    const transcriptionTypeContainer = document.getElementById("transcriptionTypeContainer");
 
     function hideAllContainers() {
         textContainer.style.display = "none";
@@ -17,8 +18,19 @@ window.onload = function () {
         container.style.display = "block";
     }
 
+    function toggleTranscriptionType() {
+        const selectedType = typeSelect.value;
+
+        if (selectedType === "youtube") {
+            transcriptionTypeContainer.style.display = "block";
+        } else {
+            transcriptionTypeContainer.style.display = "none";
+        }
+    }
+
     function toggleInputs() {
         const selectedType = typeSelect.value;
+        toggleTranscriptionType(selectedType);
 
         if (selectedType === "text") {
             toggleContainer(textContainer);
@@ -37,4 +49,3 @@ window.onload = function () {
 
     typeSelect.value = "text";
 };
-

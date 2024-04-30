@@ -2,12 +2,11 @@ from fastapi import Request, APIRouter, Depends, Form, UploadFile, BackgroundTas
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from starlette import status
-from enums.whisper_enum import WhisperType
 from config.database import get_db
 from config.settings import settings
 from schemas.input_schema import InputDataInput
 from services.input_service import InputDataService
-from models.input import TypeEnum
+from models.input import TypeEnum, TranscriptionType
 from typing import Optional
 from fastapi.responses import RedirectResponse
 from utils.upload_file import upload_file
@@ -35,7 +34,7 @@ def create_input_data(
         article_url: Optional[str] = Form(None),
         youtube_url: Optional[str] = Form(None),
         file: Optional[UploadFile] = Form(None),
-        whisper_type: WhisperType = Form(None),
+        transcription_type: Optional[TranscriptionType] = Form(None),
         session: Session = Depends(get_db)
 ):
     uploaded_file = upload_file(file)
@@ -50,7 +49,7 @@ def create_input_data(
             article_url=article_url,
             youtube_url=youtube_url,
             file_path=uploaded_file,
-            whisper_type=whisper_type
+            transcription_type=transcription_type
         )
     )
 
