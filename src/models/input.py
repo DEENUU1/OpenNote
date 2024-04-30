@@ -6,6 +6,11 @@ from sqlalchemy import Enum as SQLAlchemyEnum
 from enum import Enum
 
 
+class WhisperType(str, Enum):
+    API = "API"
+    LOCAL = "LOCAL"
+
+
 class TypeEnum(str, Enum):
     TEXT = "text"
     YOUTUBE = "youtube"
@@ -31,6 +36,7 @@ class InputData(Base):
     article_url = Column(String, nullable=True)
     youtube_url = Column(String, nullable=True)
     file_path = Column(String, nullable=True)
+    whisper_type = Column(SQLAlchemyEnum(WhisperType), nullable=True, default=None)
     preprocessed_content = Column(String, nullable=True)
     status = Column(SQLAlchemyEnum(StatusEnum), nullable=False)
     created_at = Column(DateTime, default=func.now())
