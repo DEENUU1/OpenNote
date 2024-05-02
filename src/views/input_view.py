@@ -6,7 +6,7 @@ from config.database import get_db
 from config.settings import settings
 from schemas.input_schema import InputDataInput
 from services.input_service import InputDataService
-from models.input import TypeEnum, TranscriptionType
+from models.input import TypeEnum, TranscriptionType, Language
 from typing import Optional
 from fastapi.responses import RedirectResponse
 from utils.upload_file import upload_file
@@ -35,6 +35,7 @@ def create_input_data(
         youtube_url: Optional[str] = Form(None),
         file: Optional[UploadFile] = Form(None),
         transcription_type: Optional[TranscriptionType] = Form(None),
+        language: Optional[Language] = Form(None),
         session: Session = Depends(get_db)
 ):
     uploaded_file = upload_file(file)
@@ -49,6 +50,7 @@ def create_input_data(
             article_url=article_url,
             youtube_url=youtube_url,
             file_path=uploaded_file,
+            language=language,
             transcription_type=transcription_type
         )
     )

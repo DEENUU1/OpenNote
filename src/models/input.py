@@ -1,15 +1,31 @@
+from enum import Enum
+
 from sqlalchemy import Column, Integer, String, DateTime, func
+from sqlalchemy import Enum as SQLAlchemyEnum
 from sqlalchemy.orm import relationship
 
 from config.database import Base
-from sqlalchemy import Enum as SQLAlchemyEnum
-from enum import Enum
 
 
 class TranscriptionType(str, Enum):
     GENERATED = "generated"
     WHISPER_API = "whisper_api"
     WHISPER_LOCAL = "whisper_local"
+
+
+class Language(str, Enum):
+    DANISH = "Danish"
+    CZECH = "Czech"
+    DUTCH = "Dutch"
+    ENGLISH = "English"
+    GERMAN = "German"
+    ITALIAN = "Italian"
+    JAPANESE = "Japanese"
+    KOREAN = "Korean"
+    POLISH = "Polish"
+    SPANISH = "Spanish"
+    FRENCH = "French"
+
 
 class TypeEnum(str, Enum):
     TEXT = "text"
@@ -37,6 +53,7 @@ class InputData(Base):
     youtube_url = Column(String, nullable=True)
     file_path = Column(String, nullable=True)
     transcription_type = Column(SQLAlchemyEnum(TranscriptionType), nullable=True, default=None)
+    language = Column(SQLAlchemyEnum(Language), nullable=True, default=None)
     preprocessed_content = Column(String, nullable=True)
     status = Column(SQLAlchemyEnum(StatusEnum), nullable=False)
     created_at = Column(DateTime, default=func.now())
