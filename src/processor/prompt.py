@@ -5,7 +5,7 @@ from models.result import TypeEnum
 
 def get_prompt(type_: TypeEnum, text: str) -> Optional[str]:
     if type_ == TypeEnum.DETAILED_NOTE:
-        return f"""
+        return f"""      
             Write a detailed note based on the following text: \n
             {text}
         """

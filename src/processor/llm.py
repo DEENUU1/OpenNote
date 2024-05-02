@@ -11,18 +11,21 @@ from config.settings import settings
 from enums.model_enum import ModelEnum, ModelType
 from models.result import TypeEnum
 from .prompt import get_prompt
+from models.input import Language
 
 
 class LLMProcess:
     def __init__(
             self,
             model_type: ModelEnum,
+            language: Language,
             chunk_size: int = 5000,
             chunk_overlap: int = 200,
     ):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.model_type = model_type
+        self.system_message = {"role": "system", "content": f"Response must be in {language.value} language"}
 
     def get_llm(self) -> Optional[ModelType]:
         if (
@@ -68,7 +71,9 @@ class LLMProcess:
                 messages=[{
                     "role": "user",
                     "content": prompt
-                }],
+                },
+                self.system_message,
+                ],
                 model=self.model_type.value
             )
             return groq_result.choices[0].message.content
@@ -80,7 +85,8 @@ class LLMProcess:
                     {
                         "role": "user",
                         "content": prompt
-                    }
+                    },
+                    self.system_message,
                 ]
             )
             return ollama_result["message"]["content"]
@@ -92,7 +98,8 @@ class LLMProcess:
                     {
                         "user": "user",
                         "content": prompt
-                    }
+                    },
+                    self.system_message,
                 ],
                 model=self.model_type.value
             )

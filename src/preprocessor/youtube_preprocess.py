@@ -17,7 +17,10 @@ class YoutubePreprocessStrategy(PreprocessStrategy):
         transcription = None
 
         if transcription_type == TranscriptionType.GENERATED:
-            transcription = YoutubeTranscription(input_object.youtube_url, input_object.language).get_youtube_transcription()
+            transcription = YoutubeTranscription(
+                input_object.youtube_url,
+                input_object.language
+            ).get_youtube_transcription()
             print("Get video transcription from youtube video")
 
         elif transcription_type == TranscriptionType.WHISPER_LOCAL:
