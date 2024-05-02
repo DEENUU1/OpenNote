@@ -9,9 +9,9 @@ from openai import OpenAI
 
 from config.settings import settings
 from enums.model_enum import ModelEnum, ModelType
+from models.input import Language
 from models.result import TypeEnum
 from .prompt import get_prompt
-from models.input import Language
 
 
 class LLMProcess:
@@ -46,11 +46,13 @@ class LLMProcess:
             return ModelType.OPENAI
 
         elif (
-                self.model_type == ModelEnum.GROQ_LLAMA_3_70_B
+                self.model_type == ModelEnum.GROQ_GEMMA_7B
                 or
-                self.model_type == ModelEnum.GROQ_GEMMA
+                self.model_type == ModelEnum.GROQ_MIXTRAL_8X7B
                 or
-                self.model_type == ModelEnum.GROQ_MIXTRAL
+                self.model_type == ModelEnum.GROQ_LLAMA3_8B
+                or
+                self.model_type == ModelEnum.GROQ_LLAMA3_70B
         ):
             if not settings.GROQ_APIKEY:
                 raise Exception("GROQ API key is not set")
@@ -68,11 +70,12 @@ class LLMProcess:
         if llm == ModelType.GROQ:
             groq = Groq(api_key=settings.GROQ_APIKEY)
             groq_result = groq.chat.completions.create(
-                messages=[{
-                    "role": "user",
-                    "content": prompt
-                },
-                self.system_message,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt
+                    },
+                    self.system_message,
                 ],
                 model=self.model_type.value
             )
