@@ -79,6 +79,7 @@ class LLMProcess:
                 ],
                 model=self.model_type.value
             )
+            print(groq_result)
             return groq_result.choices[0].message.content
 
         elif llm == ModelType.OLLAMA:

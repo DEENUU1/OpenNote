@@ -103,7 +103,7 @@
 
 
             <script>
-                const markdownResult = {;{ result.result | tojson | safe }};
+                const markdownResult = {{ result.result | tojson | safe }};
                 document.getElementById('formattedText-{{result.id}}').innerHTML = convertMarkdownToHTML(markdownResult);
             </script>
 
