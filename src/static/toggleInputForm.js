@@ -5,7 +5,7 @@ window.onload = function () {
     const youtubeUrlContainer = document.getElementById("youtubeUrlContainer");
     const fileContainer = document.getElementById("fileContainer");
     const transcriptionTypeContainer = document.getElementById("transcriptionTypeContainer");
-    const languageContainer = document.getElementById("languageContainer")
+    // const languageContainer = document.getElementById("languageContainer")
 
     function hideAllContainers() {
         textContainer.style.display = "none";
@@ -24,10 +24,10 @@ window.onload = function () {
 
         if (selectedType === "youtube") {
             transcriptionTypeContainer.style.display = "block";
-            languageContainer.style.display = "block";
+            // languageContainer.style.display = "block";
         } else {
             transcriptionTypeContainer.style.display = "none";
-            languageContainer.style.display = "none";
+            // languageContainer.style.display = "none";
         }
     }
 

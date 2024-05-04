@@ -23,6 +23,10 @@
 <img src="assets/home.png" alt="home_page"/>
 <img src="assets/results.png" alt="details_page"/>
 
+## TODO
+- [ ] Add support for Whisper API 
+- [ ] Translator
+
 
 ## About the project
 
