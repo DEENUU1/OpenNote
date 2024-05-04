@@ -21,7 +21,8 @@
 </div>
 
 <img src="assets/home.png" alt="home_page"/>
-<img src="assets/results.png" alt="details_page"/>
+<img src="assets/details1.png" alt="details_page_1"/>
+<img src="assets/details2.png" alt="details_page_2"/>
 
 ## TODO
 - [ ] Add support for Whisper API 
