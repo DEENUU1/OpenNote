@@ -78,11 +78,17 @@ class YoutubeTranscription:
             for transcript in transcription_list:
                 if self.language in transcript.language:
                     if transcript.is_generated:
+                        logger.info(f"Generated transcript found for video {video_id}")
                         generated = transcript
-                    else:
-                        manually = transcript
+
+                    # Manually created transcripts are not supported for now
+                    # Generated is preferred over manually created
+                    # else:
+                    #     logger.info(f"Manually transcript found for video {video_id}")
+                    #     manually = transcript
 
             if not generated and not manually:
+                logger.info(f"No transcript found for video {video_id}")
                 lang_code = self.map_languages_to_code(self.language)
 
                 for transcript in transcription_list:
@@ -90,13 +96,16 @@ class YoutubeTranscription:
 
                     for lang in translation_languages:
                         if self.language in lang.get("language"):
+                            logger.info(f"Transcript found for video {video_id}")
                             generated = transcript.translate(lang_code)
 
-            if generated and manually:
-                text = manually.fetch()
+            # if generated and manually:
+            #     logger.info(f"Generated transcript found for video {video_id}")
+            #     text = manually.fetch()
 
-            elif generated:
-                text = generated.fetch()
+            # elif generated:
+            logger.info(f"Generated transcript found for video {video_id}")
+            text = generated.fetch()
 
         except TranscriptsDisabled:
             logger.info(f"Transcripts disabled for video {video_id}")
