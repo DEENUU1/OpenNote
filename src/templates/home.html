@@ -16,10 +16,6 @@
                 <option value="file">File Path</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" name="title">
-        </div>
         <div id="textContainer" style="display: none;" class="form-group">
             <label for="text">Text:</label>
             <input type="text" class="form-control" id="text" name="text">
@@ -69,7 +65,13 @@
     <div class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">
-                <a href="{{ url_for('input_details', input_id=input.id) }}">{{input.title}}</a>
+                <a href="{{ url_for('input_details', input_id=input.id) }}">
+                    {% if input.title %}
+                        {{input.title}}
+                    {% else %}
+                        {{input.id}}
+                    {% endif %}
+                </a>
             </h5>
             <span class="badge text-bg-secondary rounded-pill bg-primary">{{input.type.value}}</span>
             <span class="badge text-bg-secondary rounded-pill bg-primary">{{input.status.value}}</span>

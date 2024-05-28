@@ -9,7 +9,7 @@ from schemas.input_schema import InputDataDetails, InputDataOutput
 from sqlalchemy.orm import Session
 
 
-def run_preprocess(input_details: Union[InputDataDetails, InputDataOutput], session: Session):
+def run_preprocess(input_details: Union[InputDataDetails, InputDataOutput], session: Session) -> None:
     print(f"Run preprocess tasks for: {input_details.id} input")
 
     preprocessor_map = {

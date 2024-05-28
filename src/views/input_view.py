@@ -29,7 +29,6 @@ def delete_input_data(input_id: int, session: Session = Depends(get_db)):
 def create_input_data(
         background_tasks: BackgroundTasks,
         type: TypeEnum = Form(...),
-        title: Optional[str] = Form(...),
         text: Optional[str] = Form(None),
         article_url: Optional[str] = Form(None),
         youtube_url: Optional[str] = Form(None),
@@ -44,7 +43,6 @@ def create_input_data(
 
     created_input = service.create(
         input_data=InputDataInput(
-            title=title,
             type=type,
             text=text,
             article_url=article_url,

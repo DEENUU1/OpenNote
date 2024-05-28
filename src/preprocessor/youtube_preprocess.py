@@ -8,9 +8,18 @@ from .youtube.youtube_transcription import YoutubeTranscription
 from .youtube.youtube_downloader import YoutubeDownloader
 from config.settings import settings
 from .audio_transcription import AudioTranscription
+import pytube
 
 
 class YoutubePreprocessStrategy(PreprocessStrategy):
+
+    @staticmethod
+    def get_youtube_video_title(url: str) -> str:
+        try:
+            youtube = pytube.YouTube(url)
+            return youtube.title
+        except Exception as e:
+            print(e)
 
     @staticmethod
     def get_transcription(transcription_type: TranscriptionType, input_object) -> Optional[str]:
@@ -57,6 +66,8 @@ class YoutubePreprocessStrategy(PreprocessStrategy):
 
         input_service.update_preprocessed_content(input_id, transcription)
         input_service.update_status(input_id, StatusEnum.PREPROCESSED)
-
+        video_title = self.get_youtube_video_title(input_object.youtube_url)
+        if video_title:
+            input_service.update_title(input_id, video_title)
         print(f"Preprocessed input {input_id}")
 

@@ -46,7 +46,7 @@ class InputData(Base):
     __tablename__ = 'input'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String, nullable=False)
+    title = Column(String, nullable=True)
     type = Column(SQLAlchemyEnum(TypeEnum), nullable=False)
     text = Column(String, nullable=True)
     article_url = Column(String, nullable=True)

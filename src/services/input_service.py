@@ -22,6 +22,14 @@ class InputDataService:
 
         return self.input_repository.delete(input_object)
 
+    def update_title(self, input_id: int, title: str) -> bool:
+        if not self.input_repository.input_object_exists(input_id):
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Input not found")
+
+        input_object = self.input_repository.get_object(input_id)
+
+        return self.input_repository.update_title(input_object, title)
+
     def get_all(self, page: int = 1, page_limit: int = 50) -> InputDataListOutput:
         return self.input_repository.get_all(page, page_limit)
 

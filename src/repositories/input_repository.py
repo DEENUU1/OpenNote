@@ -34,6 +34,11 @@ class InputDataRepository:
         self.session.commit()
         return True
 
+    def update_title(self, input_object: Type[InputData], title: str) -> bool:
+        input_object.title = title
+        self.session.commit()
+        return True
+
     def input_object_exists(self, input_id: int) -> bool:
         return self.session.query(InputData).filter(InputData.id == input_id).first() is not None
 

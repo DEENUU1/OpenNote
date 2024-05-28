@@ -6,7 +6,6 @@ from .result_schema import ResultOutput
 
 
 class InputDataInput(BaseModel):
-    title: str
     type: TypeEnum
     text: Optional[str] = None
     article_url: Optional[str] = None
@@ -18,7 +17,7 @@ class InputDataInput(BaseModel):
 
 
 class InputDataOutput(BaseModel):
-    title: str
+    title: Optional[str] = None
     id: int
     type: TypeEnum
     text: Optional[str] = None

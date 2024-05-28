@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
-from typing import Optional
+from typing import Optional, Tuple
 from bs4 import BeautifulSoup
 
 
@@ -20,7 +20,7 @@ class InternetPreprocessStrategy(PreprocessStrategy):
             )
         )
 
-    def get_page_content(self, url: str) -> Optional[str]:
+    def get_page_content_and_title(self, url: str) -> Tuple[Optional[str], Optional[str]]:
         driver = self.get_driver()
         try:
             driver.get(url)
@@ -28,7 +28,7 @@ class InternetPreprocessStrategy(PreprocessStrategy):
             print(e)
             return None
 
-        return driver.page_source
+        return driver.page_source, driver.title
 
     @staticmethod
     def parse_page(page_source: str) -> Optional[str]:
@@ -52,12 +52,12 @@ class InternetPreprocessStrategy(PreprocessStrategy):
 
         input_object = input_service.get_details(input_id)
 
-        page_content = self.get_page_content(input_object.article_url)
+        page_content, title = self.get_page_content_and_title(input_object.article_url)
         parsed_content = self.parse_page(page_content)
 
         input_service.update_preprocessed_content(input_id, parsed_content)
-
         input_service.update_status(input_id, StatusEnum.PREPROCESSED)
+        input_service.update_title(input_id, title)
 
         print(f"Preprocessed input {input_id}")
 

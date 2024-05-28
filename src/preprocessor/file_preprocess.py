@@ -1,3 +1,5 @@
+import os
+
 from .preprocess_strategy import PreprocessStrategy
 from sqlalchemy.orm import Session
 from models.input import StatusEnum
@@ -6,6 +8,16 @@ from .file_parser.factory import FileParserFactory
 
 
 class FilePreprocessStrategy(PreprocessStrategy):
+
+    @staticmethod
+    def get_file_name(file_path: str) -> str:
+        try:
+            base_name = os.path.basename(file_path)
+            file_name, _ = os.path.splitext(base_name)
+            return file_name
+        except Exception as e:
+            print(e)
+
 
     def run(self, input_id: int, session: Session) -> None:
         input_service = InputDataService(session)
@@ -26,8 +38,10 @@ class FilePreprocessStrategy(PreprocessStrategy):
         file_content = file_parser_factory.parse(file_path)
 
         input_service.update_preprocessed_content(input_id, file_content)
-
         input_service.update_status(input_id, StatusEnum.PREPROCESSED)
+        file_name = self.get_file_name(file_path)
+        if file_name:
+            input_service.update_title(input_id, file_name)
 
         print(f"Preprocessed input {input_id}")
 
