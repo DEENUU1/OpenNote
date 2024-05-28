@@ -5,6 +5,9 @@ from sqlalchemy.orm import Session
 from models.input import StatusEnum
 from services.input_service import InputDataService
 from .file_parser.factory import FileParserFactory
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class FilePreprocessStrategy(PreprocessStrategy):
@@ -16,14 +19,13 @@ class FilePreprocessStrategy(PreprocessStrategy):
             file_name, _ = os.path.splitext(base_name)
             return file_name
         except Exception as e:
-            print(e)
-
+            logger.error(f"Error while getting file name: {e}")
 
     def run(self, input_id: int, session: Session) -> None:
         input_service = InputDataService(session)
 
         input_service.update_status(input_id, StatusEnum.PREPROCESSING)
-        print(f"Preprocessing input {input_id}")
+        logger.info(f"Preprocessing input {input_id}")
 
         input_object = input_service.get_details(input_id)
 
@@ -32,7 +34,7 @@ class FilePreprocessStrategy(PreprocessStrategy):
 
         if not file_parser_factory:
             input_service.update_status(input_id, StatusEnum.FAILED)
-            print(f"Failed preprocessing input {input_id}")
+            logger.error(f"No parser found for file {file_path}")
             return
 
         file_content = file_parser_factory.parse(file_path)
@@ -43,5 +45,6 @@ class FilePreprocessStrategy(PreprocessStrategy):
         if file_name:
             input_service.update_title(input_id, file_name)
 
-        print(f"Preprocessed input {input_id}")
+        logger.info(f"Preprocessed input {input_id}")
+        return
 

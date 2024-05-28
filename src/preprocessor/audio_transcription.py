@@ -6,6 +6,9 @@ from pydub import AudioSegment
 
 from config.settings import settings
 from utils.get_date_hash import get_date_hash
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class AudioTranscription:
@@ -20,11 +23,12 @@ class AudioTranscription:
 
     def split_audio_to_chunks(self) -> Optional[str]:
         try:
+            logger.info(f"Splitting audio file {self.audio_file_path} into chunks")
             audio = AudioSegment.from_file(self.audio_file_path)
 
             chunk_length = self.chunk_size * 1000
             chunks = [audio[i:i + chunk_length] for i in range(0, len(audio), chunk_length)]
-            print(f"Split file into {len(chunks)} chunks")
+            logger.info(f"Audio file split into {len(chunks)} chunks")
 
             date_hash = get_date_hash()
             output_directory = f"{settings.AUDIO_CHUNK_FILE_PATH}{date_hash}"
@@ -32,12 +36,12 @@ class AudioTranscription:
 
             for i, chunk in enumerate(chunks):
                 chunk.export(os.path.join(output_directory, f"chunk_{i}.mp3"), format="mp3")
-                print(f"Chunk {i} exported")
+                logger.info(f"Chunk {i} exported to {output_directory}")
 
             return output_directory
 
         except Exception as e:
-            print(f"Error while splitting audio file: {e}")
+            print(f"Error while splitting audio file {self.audio_file_path}: {e}")
             return
 
     def transcribe_audio(self, audio_path: str) -> Optional[str]:
@@ -47,7 +51,7 @@ class AudioTranscription:
             result = model.transcribe(audio_path)
             return result.get("text")
         except Exception as e:
-            print(f"Error while transcribing {audio_path}: {e}")
+            print(f"Error while transcribing audio file {audio_path}: {e}")
             return
 
     def run(self) -> Optional[str]:
@@ -64,7 +68,7 @@ class AudioTranscription:
             if not transcription:
                 continue
             result += transcription
-            print(f"Transcribed chunk {chunk}")
+            logger.info(f"Transcribed chunk {chunk}")
             # os.remove(chunk_path)
             # print(f"Removed chunk {chunk}")
 

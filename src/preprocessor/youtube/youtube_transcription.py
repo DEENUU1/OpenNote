@@ -2,7 +2,10 @@ from typing import Optional, Dict, List
 from urllib.parse import urlparse, parse_qs
 
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import NoTranscriptFound, TranscriptsDisabled
+from youtube_transcript_api._errors import TranscriptsDisabled
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class YoutubeTranscription:
@@ -24,7 +27,7 @@ class YoutubeTranscription:
             if query.path[:3] == '/v/':
                 return query.path.split('/')[2]
 
-        print("Couldn't find video id for the given url")
+        logger.error("Invalid YouTube URL")
         return None
 
     @staticmethod
@@ -65,10 +68,11 @@ class YoutubeTranscription:
         generated, manually = None, None
 
         try:
+            logger.info(f"Fetching transcript for video {video_id}")
             transcription_list = YouTubeTranscriptApi.list_transcripts(video_id)
 
             if not transcription_list:
-                print(f"No audio found for video {video_id}")
+                logger.info(f"Transcripts disabled for video {video_id}")
                 return text
 
             for transcript in transcription_list:
@@ -95,18 +99,18 @@ class YoutubeTranscription:
                 text = generated.fetch()
 
         except TranscriptsDisabled:
-            print(f"Transcripts disabled for video {video_id}")
+            logger.info(f"Transcripts disabled for video {video_id}")
             return text
 
         except Exception as e:
-            print(e)
+            logger.error(f"Error fetching transcript for video {video_id}: {e}")
             return text
 
         return text
 
     def get_youtube_transcription(self) -> Optional[str]:
         video_id = self.get_youtube_video_id(self.url)
-        print(f"Youtube video id: {video_id}")
+        logger.info(f"Video ID: {video_id}")
 
         fetched_transcript = self.fetch_transcription(video_id)
 

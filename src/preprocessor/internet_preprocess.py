@@ -8,6 +8,9 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 from typing import Optional, Tuple
 from bs4 import BeautifulSoup
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class InternetPreprocessStrategy(PreprocessStrategy):
@@ -25,8 +28,8 @@ class InternetPreprocessStrategy(PreprocessStrategy):
         try:
             driver.get(url)
         except Exception as e:
-            print(e)
-            return None
+            logger.error(f"Error while fetching page: {e}")
+            return None, None
 
         return driver.page_source, driver.title
 
@@ -48,7 +51,7 @@ class InternetPreprocessStrategy(PreprocessStrategy):
         input_service = InputDataService(session)
 
         input_service.update_status(input_id, StatusEnum.PREPROCESSING)
-        print(f"Preprocessing input {input_id}")
+        logger.info(f"Preprocessing input {input_id}")
 
         input_object = input_service.get_details(input_id)
 
@@ -59,5 +62,5 @@ class InternetPreprocessStrategy(PreprocessStrategy):
         input_service.update_status(input_id, StatusEnum.PREPROCESSED)
         input_service.update_title(input_id, title)
 
-        print(f"Preprocessed input {input_id}")
+        logger.info(f"Preprocessed input {input_id}")
 

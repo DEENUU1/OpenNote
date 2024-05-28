@@ -12,6 +12,9 @@ from enums.model_enum import ModelEnum, ModelType
 from models.input import Language
 from models.result import TypeEnum
 from .prompt import get_prompt
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class LLMProcess:
@@ -41,6 +44,7 @@ class LLMProcess:
                 self.model_type == ModelEnum.GPT4
         ):
             if not settings.OPENAI_APIKEY:
+                logger.error("OpenAI API key is not set")
                 raise Exception("OpenAI API key is not set")
 
             return ModelType.OPENAI
@@ -55,6 +59,7 @@ class LLMProcess:
                 self.model_type == ModelEnum.GROQ_LLAMA3_70B
         ):
             if not settings.GROQ_APIKEY:
+                logger.error("GROQ API key is not set")
                 raise Exception("GROQ API key is not set")
 
             return ModelType.GROQ
@@ -79,7 +84,7 @@ class LLMProcess:
                 ],
                 model=self.model_type.value
             )
-            print(groq_result)
+            logger.info(groq_result)
             return groq_result.choices[0].message.content
 
         elif llm == ModelType.OLLAMA:

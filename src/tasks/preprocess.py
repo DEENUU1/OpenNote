@@ -7,10 +7,13 @@ from preprocessor.file_preprocess import FilePreprocessStrategy
 from models.input import TypeEnum
 from schemas.input_schema import InputDataDetails, InputDataOutput
 from sqlalchemy.orm import Session
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 def run_preprocess(input_details: Union[InputDataDetails, InputDataOutput], session: Session) -> None:
-    print(f"Run preprocess tasks for: {input_details.id} input")
+    logger.info(f"Preprocess for input: {input_details.id}")
 
     preprocessor_map = {
         TypeEnum.TEXT:  TextPreprocessStrategy,
@@ -20,8 +23,8 @@ def run_preprocess(input_details: Union[InputDataDetails, InputDataOutput], sess
     }
 
     preprocessor = preprocessor_map[input_details.type]
-    print(f"Preprocess strategy: {preprocessor}")
+    logger.info(f"Using preprocessor: {preprocessor}")
 
     preprocess = Preprocess(preprocessor())
     preprocess.run(input_details.id, session)
-    print(f"Preprocess done for: {input_details.id} input")
+    logger.info(f"Preprocess finished for input: {input_details.id}")

@@ -4,6 +4,9 @@ from src.schemas.input_schema import InputDataOutput
 from src.models.input import TypeEnum
 from src.services.input_service import InputDataService
 import pytube
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 def get_youtube_video_title(url: str) -> str:
@@ -11,7 +14,7 @@ def get_youtube_video_title(url: str) -> str:
         youtube = pytube.YouTube(url)
         return youtube.title
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def get_title_by_source(object_: InputDataOutput, session: Session) -> None:
