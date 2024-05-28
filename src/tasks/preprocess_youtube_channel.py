@@ -1,5 +1,5 @@
 from models.input import TypeEnum, Language, TranscriptionType
-from schemas.input_schema import InputDataDetails
+from schemas.input_schema import InputDataInput
 from sqlalchemy.orm import Session
 from logging import getLogger
 from services.input_service import InputDataService
@@ -28,7 +28,7 @@ def run_youtube_channel_preprocess(
     _service = InputDataService(session)
     for url in channel_videos:
         created_input = _service.create(
-            input_data=InputDataDetails(
+            input_data=InputDataInput(
                 type=type_,
                 youtube_url=url,
                 language=language,

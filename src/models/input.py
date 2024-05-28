@@ -32,6 +32,8 @@ class TypeEnum(str, Enum):
     YOUTUBE = "youtube"
     FILE = "file"
     ARTICLE = "article"
+    YOUTUBE_CHANNEL = "channel"
+    YOUTUBE_PLAYLIST = "playlist"
 
 
 class StatusEnum(str, Enum):

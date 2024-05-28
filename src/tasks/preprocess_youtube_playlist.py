@@ -1,6 +1,6 @@
 from models.input import TypeEnum, Language, TranscriptionType
 from preprocessor.youtube.youtube_playlist import YoutubePlaylist
-from schemas.input_schema import InputDataDetails
+from schemas.input_schema import    InputDataInput
 from sqlalchemy.orm import Session
 from logging import getLogger
 from services.input_service import InputDataService
@@ -28,7 +28,7 @@ def run_youtube_playlist_preprocess(
     _service = InputDataService(session)
     for url in playlist_videos:
         created_input = _service.create(
-            input_data=InputDataDetails(
+            input_data=InputDataInput(
                 type=type_,
                 youtube_url=url,
                 language=language,

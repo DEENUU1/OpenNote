@@ -31,33 +31,31 @@ def delete_input_data(input_id: int, session: Session = Depends(get_db)):
 @router.post("/input", status_code=303)
 def create_input_data(
         background_tasks: BackgroundTasks,
-        type_: TypeEnum = Form(...),
+        type: TypeEnum = Form(...),
         text: Optional[str] = Form(None),
         article_url: Optional[str] = Form(None),
         youtube_url: Optional[str] = Form(None),
-        youtube_channel: Optional[str] = Form(None),
-        youtube_playlist: Optional[str] = Form(None),
         file: Optional[UploadFile] = Form(None),
         transcription_type: Optional[TranscriptionType] = Form(None),
         language: Optional[Language] = Form(None),
         session: Session = Depends(get_db)
 ):
-    if youtube_channel:
+    if type == TypeEnum.YOUTUBE_CHANNEL:
         background_tasks.add_task(
             run_youtube_channel_preprocess,
             youtube_url,
-            type_,
+            type,
             language,
             transcription_type,
             session
         )
         return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
 
-    if youtube_playlist:
+    if type == TypeEnum.YOUTUBE_PLAYLIST:
         background_tasks.add_task(
             run_youtube_playlist_preprocess,
             youtube_url,
-            type_,
+            type,
             language,
             transcription_type,
             session
@@ -70,7 +68,7 @@ def create_input_data(
 
     created_input = service.create(
         input_data=InputDataInput(
-            type=type_,
+            type=type,
             text=text,
             article_url=article_url,
             youtube_url=youtube_url,

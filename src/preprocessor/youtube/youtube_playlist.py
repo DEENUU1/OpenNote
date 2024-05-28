@@ -19,5 +19,5 @@ class YoutubePlaylist:
 
             return urls
         except Exception as e:
-            logger.error(e)
+            logger.error(f"Error getting playlist videos: {e}")
             return

@@ -19,7 +19,9 @@ def run_preprocess(input_details: Union[InputDataDetails, InputDataOutput], sess
         TypeEnum.TEXT:  TextPreprocessStrategy,
         TypeEnum.YOUTUBE: YoutubePreprocessStrategy,
         TypeEnum.FILE: FilePreprocessStrategy,
-        TypeEnum.ARTICLE: InternetPreprocessStrategy
+        TypeEnum.ARTICLE: InternetPreprocessStrategy,
+        TypeEnum.YOUTUBE_PLAYLIST: YoutubePreprocessStrategy,
+        TypeEnum.YOUTUBE_CHANNEL: YoutubePreprocessStrategy,
     }
 
     preprocessor = preprocessor_map[input_details.type]
