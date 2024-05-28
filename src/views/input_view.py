@@ -9,6 +9,9 @@ from services.input_service import InputDataService
 from models.input import TypeEnum, TranscriptionType, Language
 from typing import Optional
 from fastapi.responses import RedirectResponse
+
+from tasks.preprocess_youtube_channel import run_youtube_channel_preprocess
+from tasks.preprocess_youtube_playlist import run_youtube_playlist_preprocess
 from utils.upload_file import upload_file
 from tasks.preprocess import run_preprocess
 
@@ -28,22 +31,46 @@ def delete_input_data(input_id: int, session: Session = Depends(get_db)):
 @router.post("/input", status_code=303)
 def create_input_data(
         background_tasks: BackgroundTasks,
-        type: TypeEnum = Form(...),
+        type_: TypeEnum = Form(...),
         text: Optional[str] = Form(None),
         article_url: Optional[str] = Form(None),
         youtube_url: Optional[str] = Form(None),
+        youtube_channel: Optional[str] = Form(None),
+        youtube_playlist: Optional[str] = Form(None),
         file: Optional[UploadFile] = Form(None),
         transcription_type: Optional[TranscriptionType] = Form(None),
         language: Optional[Language] = Form(None),
         session: Session = Depends(get_db)
 ):
+    if youtube_channel:
+        background_tasks.add_task(
+            run_youtube_channel_preprocess,
+            youtube_url,
+            type_,
+            language,
+            transcription_type,
+            session
+        )
+        return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
+
+    if youtube_playlist:
+        background_tasks.add_task(
+            run_youtube_playlist_preprocess,
+            youtube_url,
+            type_,
+            language,
+            transcription_type,
+            session
+        )
+        return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
+
     uploaded_file = upload_file(file)
 
     service = InputDataService(session)
 
     created_input = service.create(
         input_data=InputDataInput(
-            type=type,
+            type=type_,
             text=text,
             article_url=article_url,
             youtube_url=youtube_url,

@@ -22,7 +22,7 @@ window.onload = function () {
     function toggleYoutubeAdditionalFields() {
         const selectedType = typeSelect.value;
 
-        if (selectedType === "youtube") {
+        if (selectedType === "youtube" || selectedType === "playlist" || selectedType === "channel")  {
             transcriptionTypeContainer.style.display = "block";
             // languageContainer.style.display = "block";
         } else {
@@ -39,7 +39,7 @@ window.onload = function () {
             toggleContainer(textContainer);
         } else if (selectedType === "article") {
             toggleContainer(articleUrlContainer);
-        } else if (selectedType === "youtube") {
+        } else if (selectedType === "youtube" || selectedType === "playlist" || selectedType === "channel") {
             toggleContainer(youtubeUrlContainer);
         } else if (selectedType === "file") {
             toggleContainer(fileContainer);
