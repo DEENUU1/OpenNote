@@ -8,7 +8,7 @@ from langchain_core.documents import Document
 from openai import OpenAI
 
 from config.settings import settings
-from enums.model_enum import ModelEnum, ModelType
+from enums.model_enum import ModelEnum, ModelType, map_tokens_by_model
 from models.input import Language
 from models.result import TypeEnum
 from .prompt import get_prompt
@@ -22,11 +22,9 @@ class LLMProcess:
             self,
             model_type: ModelEnum,
             language: Language,
-            chunk_size: int = 5000,
-            chunk_overlap: int = 200,
     ):
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        self.chunk_size = map_tokens_by_model(model_type)
+        print(f"Chunk size {self.chunk_size}")
         self.model_type = model_type
         self.system_message = {"role": "system", "content": f"Response must be in {language.value} language"}
 
@@ -105,7 +103,7 @@ class LLMProcess:
             openai_result = client.chat.completions.create(
                 messages=[
                     {
-                        "user": "user",
+                        "role": "user",
                         "content": prompt
                     },
                     self.system_message,
@@ -115,7 +113,7 @@ class LLMProcess:
             return openai_result.choices[0].message.content
 
     def split_text_to_chunks(self, text: str) -> List[Document]:
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=self.chunk_size, chunk_overlap=0)
 
         split_text = text_splitter.create_documents([text])
         return split_text
