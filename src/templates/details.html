@@ -42,7 +42,7 @@
           </button>
         </h2>
 
-        <div id="collapseOne"  class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div id="collapseOne"  class="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <div class="accordion-body">
                 <div class="preprocess_div">
                     {% if details.preprocessed_content %}
@@ -82,6 +82,7 @@
             <input type="submit" class="btn btn-success" value="Generate">
         </form>
 
+
         {% if details.results %}
             {% for result in details.results %}
             <div class="accordion">
@@ -91,7 +92,7 @@
                     </button>
                 </h2>
 
-                <div id="collapse-{{result.id}}" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div id="collapse-{{result.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="preprocess_div">
                             <div id="formattedText-{{result.id}}" class="container mt-3"></div>

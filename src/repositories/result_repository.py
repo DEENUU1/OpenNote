@@ -1,3 +1,5 @@
+from sqlalchemy import desc
+
 from models.result import Result
 from schemas.result_schema import ResultInput, ResultOutput
 from sqlalchemy.orm import Session
@@ -15,7 +17,7 @@ class ResultRepository:
         return True
 
     def get_all_by_input_id(self, input_id: int) -> List[ResultOutput]:
-        results = self.session.query(Result).filter(Result.input_id == input_id).all()
+        results = self.session.query(Result).filter(Result.input_id == input_id).order_by(desc(Result.created_at)).all()
         return [ResultOutput(**result.__dict__) for result in results]
 
     def delete(self, result_db: Type[Result]) -> bool:
